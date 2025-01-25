@@ -30,10 +30,13 @@ app.get('/profile-image', async (req, res) => {
         
         const $ = cheerio.load(response.data);
         const imageElement = $('img[alt="Profile Picture"]');
+        const usernameElement = $('h3._9vd5:nth-child(2)')
 
         if (imageElement.length > 0) {
-            const imageUrl = imageElement.attr('src');
-            return res.status(200).json({ imageUrl });
+            const picture = imageElement.attr('src');
+            const username = usernameElement.text().trim()
+            
+            return res.status(200).json({ picture, username });
         } else {
             return res.status(404).json({ error: 'Profile image not found' });
         }
